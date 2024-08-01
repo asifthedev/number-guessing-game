@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Number Guessing Game</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      padding: 0;
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    #main {
+      background-color: #000000;
+      min-height: 100vh;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    #computer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #1F1F1F;
+      width: 120px;
+      height: 110px;
+      border-radius: 4px;
+      border: 1px solid #4B4B4B;
+    }
+
+    #monkey:hover {
+      filter: blur(1px);
+      transition: 0.2s;
+    }
+
+    .human-input {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      font-size: 50px;
+      color: white;
+      caret-color: white;
+      background-color: #1F1F1F;
+      width: 120px;
+      height: 110px;
+      border-radius: 4px;
+      border: 1px solid #4B4B4B;
+      font-family: 'Inter', sans-serif;
+      outline: none;
+    }
+
+    #human-input:focus {
+      outline: none;
+    }
+
+    #section1 {
+      display: flex;
+      flex-direction: row;
+      gap: 40px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    #title {
+      color: wheat;
+      font-family: 'Inter', sans-serif;
+      border: 1px solid rgb(62, 62, 62);
+      padding: 14px 20px;
+      position: relative;
+      text-align: center;
+      font-size: 24px;
+      margin: 0;
+    }
+
+    #result-container {
+      width: 40px;
+      height: 110px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #result {
+      color: wheat;
+      font-size: 40px;
+      animation-name: move;
+      animation-duration: .3s;
+    }
+
+    #computerRandomValue {
+      text-align: center;
+      font-size: 50px;
+      color: white;
+      font-family: 'Inter', sans-serif;
+      animation-name: fade;
+      animation-duration: 0.3s;
+      margin: 0;
+    }
+
+    .tinybox {
+      width: 10px;
+      height: 10px;
+      background-color: greenyellow;
+      position: absolute;
+    }
+    
+    #b1 { left: -5px; top: -5px; }
+    #b2 { right: -5px; top: -5px; }
+    #b3 { right: -5px; bottom: -5px; }
+    #b4 { left: -5px; bottom: -5px; }
+
+    @keyframes fade {
+      from { filter: blur(100px); }
+      to { filter: blur(0px); }
+    }
+
+    @keyframes move {
+      from { transform: translateY(40px); }
+      to { transform: translate(0px); }
+    }
+
+    #stat {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Inter', sans-serif;
+      font-size: 30px;
+      flex-direction: row;
+      color: wheat;
+      width: 100%;
+      height: 75px;
+    }
+
+    #matric1 {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 40px;
+      height: 40px;
+      background-color: #161616;
+      border-radius: 50px;
+      padding: 10px;
+    }
+    
+    #trialNumber {
+      animation-name: fadetrialdigit;
+      animation-duration: 1s;
+    }
+
+    @keyframes fadetrialdigit {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .toggleSwitch {
+      width: 50px;
+      height: 50px;
+      position: fixed;
+      right: 20px;
+      top: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgb(39, 39, 39);
+      border-radius: 50%;
+      cursor: pointer;
+      transition-duration: .3s;
+      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.13);
+      overflow: hidden;
+    }
+
+    #checkboxInput {
+      display: none;
+    }
+
+    .speaker, .mute-speaker {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition-duration: .3s;
+    }
+
+    .mute-speaker {
+      position: absolute;
+      opacity: 0;
+    }
+
+    .speaker svg, .mute-speaker svg {
+      width: 18px;
+    }
+
+    #checkboxInput:checked + .toggleSwitch .speaker {
+      opacity: 0;
+    }
+
+    #checkboxInput:checked + .toggleSwitch .mute-speaker {
+      opacity: 1;
+    }
+
+    #checkboxInput:active + .toggleSwitch {
+      transform: scale(0.7);
+    }
+
+    #checkboxInput:hover + .toggleSwitch {
+      background-color: rgb(61, 61, 61);
+    }
+
+    @media (max-width: 600px) {
+      #title {
+        font-size: 20px;
+      }
+
+      #section1 {
+        gap: 20px;
+      }
+
+      #computer, .human-input {
+        width: 100px;
+        height: 90px;
+      }
+
+      #result-container {
+        height: 90px;
+      }
+
+      #computerRandomValue, .human-input {
+        font-size: 40px;
+      }
+
+      #result {
+        font-size: 30px;
+      }
+
+      .toggleSwitch {
+        width: 40px;
+        height: 40px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <input type="checkbox" id="checkboxInput">
+  <label for="checkboxInput" class="toggleSwitch">
+    <div class="speaker">
+      <svg xmlns="http://www.w3.org/2000/svg" version="1.0" viewBox="0 0 75 75">
+        <path d="M39.389,13.769 L22.235,28.606 L6,28.606 L6,47.699 L21.989,47.699 L39.389,62.75 L39.389,13.769z" style="stroke:#fff;stroke-width:5;stroke-linejoin:round;fill:#fff;"></path>
+        <path d="M48,27.6a19.5,19.5 0 0 1 0,21.4M55.1,20.5a30,30 0 0 1 0,35.6M61.6,14a38.8,38.8 0 0 1 0,48.6" style="fill:none;stroke:#fff;stroke-width:5;stroke-linecap:round"></path>
+      </svg>
+    </div>
+    <div class="mute-speaker">
+      <svg version="1.0" viewBox="0 0 75 75" stroke="#fff" stroke-width="5">
+        <path d="m39,14-17,15H6V48H22l17,15z" fill="#fff" stroke-linejoin="round"></path>
+        <path d="m49,26 20,24m0-24-20,24" fill="#fff" stroke-linecap="round"></path>
+      </svg>
+    </div>
+  </label>
+
+  <div id="main">
+    <h1 id="title">Number Guessing Game
+      <div class="tinybox" id="b1"></div>
+      <div class="tinybox" id="b2"></div>
+      <div class="tinybox" id="b3"></div>
+      <div class="tinybox" id="b4"></div>
+    </h1>
+
+    <div id="section1">
+      <div id="computer" class="box">
+        <img width="80" height="80" src="https://img.icons8.com/3d-fluency/94/see-no-evil-monkey.png" alt="see-no-evil-monkey" id="monkey"/>
+      </div>
+
+      <div id="result-container">
+        <span id="result"></span>
+      </div>
+
+      <div id="human" class="box">
+        <input type="text" id="userInput" class="human-input" placeholder="?" maxlength="2">
+      </div>
+    </div>
+
+    <div id="stat">
+      <div class="statbox" id="matric1"><span id="trialNumber">10</span></div>
+    </div>
+  </div>
+
+  <audio src="error1.MP3" id="lose" preload="auto"></audio>
+  <audio src="congratulations-deep-voice-172193.mp3" id="win" preload="auto"></audio>
+  <audio src="success-fanfare-trumpets-6185.mp3" id="win2" preload="auto"></audio>
+  <audio src="mousey-mcmousekewitz-177079.mp3" autoplay preload="auto" id="music"></audio>
+  <audio src="90s-game-ui-6-185099.mp3" id="lose2" preload="auto"></audio>
+
+  <script>
+    let musicButton = document.getElementById('checkboxInput');
+    let music = document.getElementById('music');
+
+    musicButton.addEventListener('change', () => {
+      if(musicButton.checked){
+        music.pause();
+      } else {
+        music.play();
+      }
+    });
+
+    let turn = 10;
+    let seed = 1;
+    let isWaiting = false;
+    const turnHolder = document.getElementById('matric1');
+    const userInput = document.querySelector('#userInput');
+    const computer = document.querySelector('#computer');
+    const equalOrNotSign = document.getElementById('result-container');
+    const monkeyHTML = '<img width="80" height="80" src="https://img.icons8.com/3d-fluency/94/see-no-evil-monkey.png" alt="see-no-evil-monkey" id="monkey"/>';
+
+    function seededRandom(seed) {
+      let x = Math.sin(seed) * 10000;
+      return x - Math.floor(x);
+    }
+
+    function resetGame() {
+      turn = 10;
+      turnHolder.innerHTML = `<span id="trialNumber">${turn}</span>`;
+      computer.innerHTML = monkeyHTML;
+      equalOrNotSign.innerHTML = '';
+      userInput.value = '';
+      userInput.disabled = false;
+      isWaiting = false;
+    }
+
+    userInput.addEventListener('input', (e) => {
+      if (isWaiting) return;
+
+      let inputValue = parseInt(userInput.value);
+      
+      if (isNaN(inputValue) || inputValue < 1 || inputValue > 10) {
+        equalOrNotSign.innerHTML = '<span id="result">?</span>';
+        computer.innerHTML = monkeyHTML;
+        return;
+      }
+
+      let predictableNumber = Math.floor(seededRandom(seed) * 10) + 1;
+      seed++;
+      computer.innerHTML = `<p id="computerRandomValue">${predictableNumber}</p>`;
+
+      if (turn === 1) {
+        document.getElementById('lose2').play();
+        equalOrNotSign.innerHTML = '<span id="result">☹</span>';
+        setTimeout(resetGame, 2000);
+        return;
+      }
+
+      if (inputValue !== predictableNumber) {
+        equalOrNotSign.innerHTML = '<span id="result">≠</span>';
+        document.getElementById('lose').play();
+        turn -= 1;
+        turnHolder.innerHTML = `<span id="trialNumber">${turn}</span>`;
+      } else {
+        equalOrNotSign.innerHTML = '<span id="result">=</span>';
+        document.getElementById('win').play();
+        document.getElementById('win2').play();
+        isWaiting = true;
+        userInput.disabled = true;
+        setTimeout(() => {
+          resetGame();
+        }, 2000);
+      }
+    });
+  </script>
+</body>
+</html>
